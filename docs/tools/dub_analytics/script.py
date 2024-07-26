@@ -7,6 +7,7 @@ from tqdm.auto import tqdm
 from urllib.parse import urljoin
 
 DUB_CO_API_TOKEN = os.getenv("DUB_CO_API_TOKEN")
+DUB_CO_API_TOKEN = "dub_9w1ado0MUAUDC52ul3WnEPQp"
 
 class DubLink:
     def __init__(self, id, url, short_url) -> None:
@@ -56,6 +57,7 @@ def get_link_click_cnt(linkId) -> int:
 
     params = {
         'linkId': f'{linkId}',
+        'interval': '7d'
     }
 
     req = requests.get(urljoin(BASE_URL, "analytics"), headers=headers, params=params)
@@ -70,9 +72,7 @@ def get_links_clicks(url_objs) -> list:
 
     for obj in tqdm(url_objs):
         obj.set_click_cnt(get_link_click_cnt(obj.id))
-    
-    for obj in url_objs:
-        print(obj.count)
+        print(obj.count) # send to zapier
 
 shortened_url_objs = get_shortened_url_objs()
 get_links_clicks(shortened_url_objs)
